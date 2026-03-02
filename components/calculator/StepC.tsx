@@ -22,19 +22,17 @@ function DollarInput({
 }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-slate-300 mb-1">{label}</label>
-      {hint && <p className="text-xs text-slate-500 mb-1.5">{hint}</p>}
+      <label className="block text-sm font-bold text-white/80 mb-1">{label}</label>
+      {hint && <p className="text-xs text-[#6B7280] mb-1.5 font-medium">{hint}</p>}
       <div className="relative">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-medium">
-          $
-        </span>
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6B7280] font-bold">$</span>
         <input
           type="number"
           min={0}
           value={value || ''}
           onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
           placeholder={placeholder ?? '0'}
-          className="w-full bg-slate-800 border border-slate-600 rounded-lg py-3 pl-8 pr-4 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+          className="w-full bg-[#0D0D0D] border border-[#2A2A2A] rounded-xl py-3 pl-8 pr-4 text-white placeholder-[#3A3A3A] focus:outline-none focus:ring-2 focus:ring-[#17C662] focus:border-transparent transition-colors font-medium"
         />
       </div>
     </div>
@@ -60,8 +58,8 @@ function NumberInput({
 }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-slate-300 mb-1">{label}</label>
-      {hint && <p className="text-xs text-slate-500 mb-1.5">{hint}</p>}
+      <label className="block text-sm font-bold text-white/80 mb-1">{label}</label>
+      {hint && <p className="text-xs text-[#6B7280] mb-1.5 font-medium">{hint}</p>}
       <div className="relative">
         <input
           type="number"
@@ -70,10 +68,10 @@ function NumberInput({
           value={value || ''}
           onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
           placeholder="0"
-          className={`w-full bg-slate-800 border border-slate-600 rounded-lg py-3 pl-4 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${suffix ? 'pr-12' : 'pr-4'}`}
+          className={`w-full bg-[#0D0D0D] border border-[#2A2A2A] rounded-xl py-3 pl-4 text-white placeholder-[#3A3A3A] focus:outline-none focus:ring-2 focus:ring-[#17C662] focus:border-transparent transition-colors font-medium ${suffix ? 'pr-12' : 'pr-4'}`}
         />
         {suffix && (
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6B7280] text-sm font-bold">
             {suffix}
           </span>
         )}
@@ -89,16 +87,14 @@ export default function StepC({ data, onChange }: StepCProps) {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-xl font-bold text-white mb-1">Customer Economics</h2>
-        <p className="text-slate-400 text-sm">
-          Help us model realistic upside. Leave any field blank and we&apos;ll use industry
-          averages to estimate the opportunity.
+        <h2 className="text-xl font-black text-white mb-1 tracking-tight">Customer Economics</h2>
+        <p className="text-[#6B7280] text-sm font-medium">
+          Help us model realistic upside. Leave any field blank and we&apos;ll use industry averages.
         </p>
       </div>
 
-      {/* Average spend per category */}
       <div>
-        <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">
+        <h3 className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-4">
           Average Monthly Spend Per Customer
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -107,42 +103,41 @@ export default function StepC({ data, onChange }: StepCProps) {
             value={data.avgUCaaSSpend}
             onChange={(v) => set('avgUCaaSSpend', v)}
             placeholder="450"
-            hint="Default: $450/mo if left blank"
+            hint="Default: $450/mo"
           />
           <DollarInput
-            label="Network / Connectivity (SD-WAN, DIA, MPLS)"
+            label="Network / Connectivity"
             value={data.avgNetworkSpend}
             onChange={(v) => set('avgNetworkSpend', v)}
             placeholder="800"
-            hint="Default: $800/mo if left blank"
+            hint="Default: $800/mo"
           />
           <DollarInput
             label="Cybersecurity / Managed Security"
             value={data.avgSecuritySpend}
             onChange={(v) => set('avgSecuritySpend', v)}
             placeholder="600"
-            hint="Default: $600/mo if left blank"
+            hint="Default: $600/mo"
           />
           <DollarInput
             label="CCaaS / CX"
             value={data.avgCCaaSSpend}
             onChange={(v) => set('avgCCaaSSpend', v)}
             placeholder="900"
-            hint="Default: $900/mo if left blank"
+            hint="Default: $900/mo"
           />
           <DollarInput
             label="Cloud / Colocation"
             value={data.avgCloudSpend}
             onChange={(v) => set('avgCloudSpend', v)}
             placeholder="1200"
-            hint="Default: $1,200/mo if left blank"
+            hint="Default: $1,200/mo"
           />
         </div>
       </div>
 
-      {/* Contract metrics */}
       <div>
-        <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">
+        <h3 className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-4">
           Contract Profile
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -152,25 +147,25 @@ export default function StepC({ data, onChange }: StepCProps) {
             onChange={(v) => set('avgContractTermMonths', v)}
             suffix="months"
             min={1}
-            hint="Used to calculate total contract value. Default: 36 months"
+            hint="Default: 36 months"
           />
           <NumberInput
-            label="Customers Under Contract vs Month-to-Month"
+            label="Customers Under Contract"
             value={data.percentUnderContract}
             onChange={(v) => set('percentUnderContract', Math.min(100, Math.max(0, v)))}
             suffix="%"
             min={0}
             max={100}
-            hint="What % of your customers are under a term contract?"
+            hint="vs Month-to-Month"
           />
         </div>
       </div>
 
-      <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4">
-        <p className="text-xs text-slate-400">
-          <span className="text-blue-400 font-medium">Pro tip:</span> Higher contract penetration
-          and longer terms significantly increase your exit valuation multiple. MSPs with 70%+ of
-          customers under contract command premium valuations.
+      <div className="bg-[#0D0D0D] border border-[#2A2A2A] rounded-xl p-4">
+        <p className="text-xs text-[#6B7280] font-medium">
+          <span className="text-[#17C662] font-bold">Pro tip:</span> MSPs with 70%+ of customers
+          under contract command significantly higher exit valuations. Contract discipline is one of
+          the fastest ways to increase your multiple.
         </p>
       </div>
     </div>

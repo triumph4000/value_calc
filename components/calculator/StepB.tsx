@@ -22,17 +22,17 @@ function PenetrationSlider({
   onChange: (v: number) => void
 }) {
   const gap = Math.max(0, benchmark - value)
-  const gapColor = gap > 20 ? 'text-red-400' : gap > 10 ? 'text-amber-400' : 'text-emerald-400'
+  const gapColor = gap > 20 ? 'text-red-400' : gap > 10 ? 'text-amber-400' : 'text-[#17C662]'
 
   return (
-    <div className="bg-slate-800/60 border border-slate-700/50 rounded-xl p-4 space-y-3">
+    <div className="bg-[#0D0D0D] border border-[#2A2A2A] rounded-xl p-4 space-y-3">
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-sm font-semibold text-white truncate">{label}</p>
-          <p className="text-xs text-slate-500 truncate">{description}</p>
+          <p className="text-sm font-black text-white truncate tracking-tight">{label}</p>
+          <p className="text-xs text-[#6B7280] truncate font-medium">{description}</p>
         </div>
         <div className="text-right flex-shrink-0">
-          <span className="text-2xl font-bold text-blue-400">{value}%</span>
+          <span className="text-2xl font-black text-[#17C662]">{value}%</span>
         </div>
       </div>
 
@@ -45,21 +45,19 @@ function PenetrationSlider({
         onChange={(e) => onChange(Number(e.target.value))}
         className="w-full"
         style={{
-          background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${value}%, #334155 ${value}%, #334155 100%)`,
+          background: `linear-gradient(to right, #17C662 0%, #17C662 ${value}%, #2A2A2A ${value}%, #2A2A2A 100%)`,
         }}
       />
 
       <div className="flex items-center justify-between text-xs">
-        <span className="text-slate-500">
-          Industry benchmark:{' '}
-          <span className="text-slate-300 font-medium">{Math.round(benchmark * 100)}%</span>
+        <span className="text-[#6B7280] font-medium">
+          Benchmark:{' '}
+          <span className="text-white/60 font-bold">{Math.round(benchmark * 100)}%</span>
         </span>
         {gap > 0 ? (
-          <span className={`font-medium ${gapColor}`}>
-            {gap.toFixed(0)}% gap
-          </span>
+          <span className={`font-bold ${gapColor}`}>{gap.toFixed(0)}% gap</span>
         ) : (
-          <span className="text-emerald-400 font-medium">At or above benchmark</span>
+          <span className="text-[#17C662] font-bold">At benchmark</span>
         )}
       </div>
     </div>
@@ -80,29 +78,27 @@ export default function StepB({ data, onChange }: StepBProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-bold text-white mb-1">Product Penetration</h2>
-        <p className="text-slate-400 text-sm">
+        <h2 className="text-xl font-black text-white mb-1 tracking-tight">Product Penetration</h2>
+        <p className="text-[#6B7280] text-sm font-medium">
           What percentage of your customers currently buy each service from you?
-          Move each slider to reflect your current book of business.
         </p>
       </div>
 
       {/* Summary banner */}
-      <div className="bg-slate-800 border border-slate-700 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
-        <div>
-          <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">
-            Average Penetration Gap
+      <div className="bg-[#0D0D0D] border border-[#2A2A2A] rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+        <div className="flex-shrink-0">
+          <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-0.5">
+            Avg Penetration Gap
           </p>
-          <p className="text-2xl font-bold text-amber-400">{avgGapPct.toFixed(0)}%</p>
+          <p className="text-3xl font-black text-amber-400">{avgGapPct.toFixed(0)}%</p>
         </div>
-        <p className="text-xs text-slate-400 flex-1">
-          This is the average difference between your current penetration rates and industry
-          benchmarks across all product categories. The wider the gap, the more revenue hiding in
-          your existing customer base.
+        <p className="text-xs text-[#6B7280] font-medium flex-1">
+          Average gap between your current penetration rates and industry benchmarks. Every
+          percentage point represents revenue hiding in your existing customer base.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {PRODUCTS.map((product) => (
           <PenetrationSlider
             key={product.key}

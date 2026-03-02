@@ -8,16 +8,23 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-mulish)', 'Mulish', 'sans-serif'],
+      },
       colors: {
-        navy: {
-          950: '#080D1A',
-          900: '#0F172A',
-          800: '#1E293B',
-          700: '#263348',
+        bp: {
+          green: '#17C662',
+          'green-dark': '#12A352',
+          'green-light': '#4CD68B',
+          charcoal: '#32373C',
+          'charcoal-dark': '#1A1D20',
+          dark: '#0D0D0D',
+          card: '#161616',
+          border: '#2A2A2A',
+          muted: '#6B7280',
         },
       },
       animation: {
-        'count-up': 'countUp 0.8s ease-out forwards',
         'fade-in': 'fadeIn 0.5s ease-out forwards',
         'slide-up': 'slideUp 0.4s ease-out forwards',
       },

@@ -34,10 +34,10 @@ function StepIndicator({ current }: { current: number }) {
               <div
                 className={`w-9 h-9 rounded-full border-2 flex items-center justify-center text-sm font-bold transition-all duration-300 ${
                   isCompleted
-                    ? 'bg-blue-500 border-blue-500 text-white'
+                    ? 'bg-[#17C662] border-[#17C662] text-[#0D0D0D]'
                     : isCurrent
-                    ? 'border-blue-500 text-blue-400 bg-blue-500/10'
-                    : 'border-slate-600 text-slate-600 bg-slate-800'
+                    ? 'border-[#17C662] text-[#17C662] bg-[#17C662]/10'
+                    : 'border-[#2A2A2A] text-[#6B7280] bg-[#161616]'
                 }`}
               >
                 {isCompleted ? (
@@ -49,8 +49,8 @@ function StepIndicator({ current }: { current: number }) {
                 )}
               </div>
               <span
-                className={`text-[10px] font-medium mt-1 hidden sm:block ${
-                  isCurrent ? 'text-blue-400' : isCompleted ? 'text-slate-400' : 'text-slate-600'
+                className={`text-[10px] font-bold mt-1 hidden sm:block tracking-wide ${
+                  isCurrent ? 'text-[#17C662]' : isCompleted ? 'text-white/40' : 'text-[#6B7280]'
                 }`}
               >
                 {step.label}
@@ -59,7 +59,7 @@ function StepIndicator({ current }: { current: number }) {
             {i < STEPS.length - 1 && (
               <div
                 className={`h-0.5 w-10 sm:w-16 mx-1 transition-colors duration-300 ${
-                  current > step.number ? 'bg-blue-500' : 'bg-slate-700'
+                  current > step.number ? 'bg-[#17C662]' : 'bg-[#2A2A2A]'
                 }`}
               />
             )}
@@ -116,29 +116,29 @@ export default function Calculator() {
   }
 
   const results = showResults ? calculateResults(inputs) : null
-
-  const canProceed = step === 1 ? inputs.sectionA.totalCustomers > 0 && inputs.sectionA.totalMRR > 0 : true
+  const canProceed =
+    step === 1 ? inputs.sectionA.totalCustomers > 0 && inputs.sectionA.totalMRR > 0 : true
 
   return (
     <div ref={cardRef} className="w-full max-w-3xl mx-auto px-4">
-      <div className="bg-slate-800/60 backdrop-blur border border-slate-700/60 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
+      <div className="bg-[#161616] border border-[#2A2A2A] rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
         {/* Card header */}
-        <div className="bg-slate-900/80 border-b border-slate-700/60 px-6 py-5">
+        <div className="bg-[#0D0D0D] border-b border-[#2A2A2A] px-6 py-5">
           <div className="flex items-center justify-between mb-1">
-            <p className="text-xs font-semibold text-blue-400 uppercase tracking-widest">
-              Hidden MSP MRR Calculator
+            <p className="text-xs font-bold text-[#17C662] uppercase tracking-widest">
+              MSP Revenue Analyzer
             </p>
             {showResults && (
               <button
                 onClick={reset}
-                className="text-xs text-slate-400 hover:text-white transition-colors"
+                className="text-xs text-[#6B7280] hover:text-white transition-colors font-medium"
               >
                 Start over
               </button>
             )}
           </div>
           {!showResults && (
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-[#6B7280] font-medium">
               Step {step} of 4 &mdash; {STEPS[step - 1].title}
             </p>
           )}
@@ -176,25 +176,23 @@ export default function Calculator() {
               )}
 
               {/* Navigation */}
-              <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-700/50">
+              <div className="flex items-center justify-between mt-8 pt-6 border-t border-[#2A2A2A]">
                 <button
                   onClick={back}
                   disabled={step === 1}
-                  className="px-5 py-2.5 text-sm font-medium text-slate-400 hover:text-white disabled:opacity-0 disabled:pointer-events-none transition-colors"
+                  className="px-5 py-2.5 text-sm font-bold text-[#6B7280] hover:text-white disabled:opacity-0 disabled:pointer-events-none transition-colors"
                 >
                   Back
                 </button>
 
                 <div className="flex items-center gap-3">
                   {step === 1 && !canProceed && (
-                    <p className="text-xs text-slate-500">
-                      Enter customers and MRR to continue
-                    </p>
+                    <p className="text-xs text-[#6B7280]">Enter customers and MRR to continue</p>
                   )}
                   <button
                     onClick={next}
                     disabled={!canProceed}
-                    className="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold rounded-xl text-sm transition-colors duration-200"
+                    className="px-7 py-2.5 bg-[#17C662] hover:bg-[#12A352] disabled:opacity-40 disabled:cursor-not-allowed text-[#0D0D0D] font-black rounded-full text-sm transition-colors duration-200 tracking-wide"
                   >
                     {step === 4 ? 'Calculate My Hidden Revenue' : 'Next'}
                   </button>
@@ -203,7 +201,6 @@ export default function Calculator() {
             </div>
           )}
 
-          {/* Results */}
           {showResults && results && <Results inputs={inputs} results={results} />}
         </div>
       </div>

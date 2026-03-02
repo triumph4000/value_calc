@@ -25,11 +25,11 @@ function NumberInput({
 }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-slate-300 mb-1.5">{label}</label>
-      {hint && <p className="text-xs text-slate-500 mb-2">{hint}</p>}
+      <label className="block text-sm font-bold text-white/80 mb-1.5">{label}</label>
+      {hint && <p className="text-xs text-[#6B7280] mb-2">{hint}</p>}
       <div className="relative">
         {prefix && (
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-medium">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6B7280] font-bold">
             {prefix}
           </span>
         )}
@@ -39,7 +39,7 @@ function NumberInput({
           value={value || ''}
           onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
           placeholder={placeholder ?? '0'}
-          className={`w-full bg-slate-800 border border-slate-600 rounded-lg py-3 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${prefix ? 'pl-8 pr-4' : 'px-4'}`}
+          className={`w-full bg-[#0D0D0D] border border-[#2A2A2A] rounded-xl py-3 text-white placeholder-[#3A3A3A] focus:outline-none focus:ring-2 focus:ring-[#17C662] focus:border-transparent transition-colors font-medium ${prefix ? 'pl-8 pr-4' : 'px-4'}`}
         />
       </div>
     </div>
@@ -57,7 +57,7 @@ function PercentInput({
 }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-slate-400 mb-1.5">{label}</label>
+      <label className="block text-xs font-bold text-white/60 mb-1.5">{label}</label>
       <div className="relative">
         <input
           type="number"
@@ -69,17 +69,16 @@ function PercentInput({
             onChange(v)
           }}
           placeholder="0"
-          className="w-full bg-slate-700 border border-slate-600 rounded-lg py-2.5 pl-3 pr-8 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm"
+          className="w-full bg-[#0D0D0D] border border-[#2A2A2A] rounded-xl py-2.5 pl-3 pr-8 text-white placeholder-[#3A3A3A] focus:outline-none focus:ring-2 focus:ring-[#17C662] focus:border-transparent transition-colors text-sm font-medium"
         />
-        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">%</span>
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6B7280] text-sm font-bold">%</span>
       </div>
     </div>
   )
 }
 
 export default function StepA({ data, onChange }: StepAProps) {
-  const avgPerCustomer =
-    data.totalCustomers > 0 ? data.totalMRR / data.totalCustomers : 0
+  const avgPerCustomer = data.totalCustomers > 0 ? data.totalMRR / data.totalCustomers : 0
 
   const set = (field: keyof SectionAInputs, value: number) =>
     onChange({ ...data, [field]: value })
@@ -87,13 +86,12 @@ export default function StepA({ data, onChange }: StepAProps) {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-xl font-bold text-white mb-1">Core Revenue Profile</h2>
-        <p className="text-slate-400 text-sm">
+        <h2 className="text-xl font-black text-white mb-1 tracking-tight">Core Revenue Profile</h2>
+        <p className="text-[#6B7280] text-sm font-medium">
           Tell us about your current MRR and revenue breakdown.
         </p>
       </div>
 
-      {/* Primary metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <NumberInput
           label="Total Active Customers"
@@ -112,27 +110,28 @@ export default function StepA({ data, onChange }: StepAProps) {
         />
       </div>
 
-      {/* Auto-calculated */}
-      <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 flex items-center justify-between">
+      {/* Auto-calculated ARPU */}
+      <div className="bg-[#17C662]/5 border border-[#17C662]/20 rounded-xl p-4 flex items-center justify-between">
         <div>
-          <p className="text-xs text-blue-400 font-medium uppercase tracking-wider mb-0.5">
+          <p className="text-xs font-bold text-[#17C662] uppercase tracking-wider mb-0.5">
             Auto-Calculated
           </p>
-          <p className="text-sm text-slate-300">Average Monthly Revenue Per Customer</p>
+          <p className="text-sm text-white/70 font-medium">Average Monthly Revenue Per Customer</p>
         </div>
         <div className="text-right">
-          <p className="text-2xl font-bold text-white">{formatCurrency(avgPerCustomer)}</p>
-          <p className="text-xs text-slate-400">per customer / mo</p>
+          <p className="text-2xl font-black text-white">{formatCurrency(avgPerCustomer)}</p>
+          <p className="text-xs text-[#6B7280] font-medium">per customer / mo</p>
         </div>
       </div>
 
       {/* Revenue breakdown */}
       <div>
-        <h3 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-4">
+        <h3 className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-4">
           Approximate % of Revenue by Category
         </h3>
-        <p className="text-xs text-slate-500 mb-4">
-          Estimates are fine — these help us understand your current product mix. They don&apos;t need to sum to 100%.
+        <p className="text-xs text-[#6B7280] mb-4">
+          Estimates are fine — these help us understand your current product mix. They don&apos;t
+          need to sum to 100%.
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           <PercentInput

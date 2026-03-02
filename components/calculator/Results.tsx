@@ -12,7 +12,12 @@ import {
   Legend,
 } from 'recharts'
 import type { CalculatorInputs, CalculatorResults } from '@/lib/types'
-import { formatCurrency, formatLargeCurrency, formatPercent, getMaturityDescription } from '@/lib/calculations'
+import {
+  formatCurrency,
+  formatLargeCurrency,
+  formatPercent,
+  getMaturityDescription,
+} from '@/lib/calculations'
 import LeadCapture from './LeadCapture'
 
 interface ResultsProps {
@@ -24,76 +29,62 @@ function StatCard({
   label,
   value,
   sub,
-  highlight,
-  color,
+  accent,
 }: {
   label: string
   value: string
   sub?: string
-  highlight?: boolean
-  color?: 'blue' | 'emerald' | 'amber' | 'purple'
+  accent?: 'green' | 'amber' | 'purple'
 }) {
   const colors = {
-    blue: 'text-blue-400',
-    emerald: 'text-emerald-400',
+    green: 'text-[#17C662]',
     amber: 'text-amber-400',
     purple: 'text-purple-400',
   }
   const borders = {
-    blue: 'border-blue-500/40',
-    emerald: 'border-emerald-500/40',
-    amber: 'border-amber-500/40',
-    purple: 'border-purple-500/40',
+    green: 'border-[#17C662]/25 bg-[#17C662]/5',
+    amber: 'border-amber-500/25 bg-amber-500/5',
+    purple: 'border-purple-500/25 bg-purple-500/5',
   }
-  const bgs = {
-    blue: 'bg-blue-500/5',
-    emerald: 'bg-emerald-500/5',
-    amber: 'bg-amber-500/5',
-    purple: 'bg-purple-500/5',
-  }
-  const c = color ?? 'blue'
+
   return (
-    <div
-      className={`rounded-2xl border p-5 sm:p-6 ${highlight ? `${bgs[c]} ${borders[c]}` : 'bg-slate-800 border-slate-700'}`}
-    >
-      <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{label}</p>
-      <p className={`text-3xl sm:text-4xl font-bold ${highlight ? colors[c] : 'text-white'}`}>
+    <div className={`rounded-2xl border p-5 sm:p-6 ${accent ? borders[accent] : 'bg-[#0D0D0D] border-[#2A2A2A]'}`}>
+      <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-2">{label}</p>
+      <p className={`text-3xl sm:text-4xl font-black tracking-tight ${accent ? colors[accent] : 'text-white'}`}>
         {value}
       </p>
-      {sub && <p className="text-xs text-slate-500 mt-1.5">{sub}</p>}
+      {sub && <p className="text-xs text-[#6B7280] mt-1.5 font-medium">{sub}</p>}
     </div>
   )
 }
 
 function MonetizationMeter({ rate }: { rate: number }) {
-  const clampedRate = Math.min(100, Math.max(0, rate))
-  const color =
-    clampedRate < 40 ? 'bg-red-500' : clampedRate < 65 ? 'bg-amber-500' : 'bg-emerald-500'
+  const clamped = Math.min(100, Math.max(0, rate))
+  const barColor = clamped < 40 ? 'bg-red-500' : clamped < 65 ? 'bg-amber-500' : 'bg-[#17C662]'
 
   return (
-    <div className="bg-slate-800 border border-slate-700 rounded-2xl p-5 sm:p-6">
-      <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">
+    <div className="bg-[#0D0D0D] border border-[#2A2A2A] rounded-2xl p-5 sm:p-6">
+      <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-4">
         Current Monetization Rate
       </p>
       <div className="flex items-end gap-3 mb-3">
-        <span className="text-4xl font-bold text-white">{formatPercent(clampedRate, 1)}</span>
-        <span className="text-slate-400 text-sm mb-1">of your wallet captured</span>
+        <span className="text-4xl font-black text-white">{formatPercent(clamped, 1)}</span>
+        <span className="text-[#6B7280] text-sm mb-1 font-medium">of your wallet captured</span>
       </div>
-      <div className="h-3 bg-slate-700 rounded-full overflow-hidden mb-2">
+      <div className="h-3 bg-[#2A2A2A] rounded-full overflow-hidden mb-2">
         <div
-          className={`h-full rounded-full transition-all duration-1000 ${color}`}
-          style={{ width: `${clampedRate}%` }}
+          className={`h-full rounded-full transition-all duration-1000 ${barColor}`}
+          style={{ width: `${clamped}%` }}
         />
       </div>
-      <div className="flex justify-between text-xs text-slate-500">
+      <div className="flex justify-between text-xs text-[#6B7280] font-medium">
         <span>0%</span>
-        <span className="text-slate-400">Industry potential: 100%</span>
+        <span>Industry potential: 100%</span>
       </div>
-      <p className="text-xs text-slate-400 mt-3">
-        The industry average for top-performing MSPs is{' '}
-        <span className="text-slate-300 font-medium">60–75%</span> wallet share. Most MSPs sit
-        below{' '}
-        <span className="text-red-400 font-medium">40%</span>.
+      <p className="text-xs text-[#6B7280] mt-3 font-medium">
+        Top-performing MSPs capture{' '}
+        <span className="text-white font-bold">60–75%</span> wallet share. Most sit below{' '}
+        <span className="text-red-400 font-bold">40%</span>.
       </p>
     </div>
   )
@@ -105,7 +96,7 @@ const CustomTooltip = ({
   label,
 }: {
   active?: boolean
-  payload?: Array<{ value: number; name: string; dataKey: string }>
+  payload?: Array<{ value: number; dataKey: string }>
   label?: string
 }) => {
   if (!active || !payload?.length) return null
@@ -113,25 +104,26 @@ const CustomTooltip = ({
   const benchmark = payload.find((p) => p.dataKey === 'benchmark')?.value ?? 0
   const gap = Math.max(0, benchmark - current)
   return (
-    <div className="bg-slate-800 border border-slate-600 rounded-xl p-3 shadow-xl">
-      <p className="text-sm font-semibold text-white mb-2">{label}</p>
-      <p className="text-xs text-blue-400">
-        Your rate: <span className="font-bold">{current}%</span>
-      </p>
-      <p className="text-xs text-slate-400">
-        Benchmark: <span className="font-bold">{benchmark}%</span>
-      </p>
-      {gap > 0 && (
-        <p className="text-xs text-amber-400 mt-1">
-          Gap: <span className="font-bold">{gap}%</span>
-        </p>
-      )}
+    <div className="bg-[#161616] border border-[#2A2A2A] rounded-xl p-3 shadow-xl">
+      <p className="text-sm font-black text-white mb-2">{label}</p>
+      <p className="text-xs text-[#17C662] font-bold">Your rate: {current}%</p>
+      <p className="text-xs text-[#6B7280] font-medium">Benchmark: {benchmark}%</p>
+      {gap > 0 && <p className="text-xs text-amber-400 font-bold mt-1">Gap: {gap}%</p>}
     </div>
   )
 }
 
+const MATURITY_COLORS = [
+  'text-red-400', 'text-red-400', 'text-amber-400', 'text-[#17C662]', 'text-[#17C662]',
+]
+const MATURITY_BARS = [
+  'bg-red-500', 'bg-red-500', 'bg-amber-500', 'bg-[#17C662]', 'bg-[#17C662]',
+]
+const MATURITY_PCTS = ['5%', '25%', '50%', '75%', '100%']
+
 export default function Results({ inputs, results }: ResultsProps) {
   const [leadCaptured, setLeadCaptured] = useState(false)
+  const score = results.operationalMaturityScore
 
   const chartData = results.whitespaceByProduct.map((p) => ({
     name: p.productLabel.split(' ')[0].replace('/', ''),
@@ -139,22 +131,17 @@ export default function Results({ inputs, results }: ResultsProps) {
     benchmark: Math.round(p.benchmarkRate),
   }))
 
-  const maturityColors = ['text-red-400', 'text-red-400', 'text-amber-400', 'text-blue-400', 'text-emerald-400']
-  const maturityBarColors = ['bg-red-500', 'bg-red-500', 'bg-amber-500', 'bg-blue-500', 'bg-emerald-500']
-  const maturityWidths = ['w-[5%]', 'w-1/4', 'w-2/4', 'w-3/4', 'w-full']
-  const score = results.operationalMaturityScore
-
   return (
     <div className="space-y-8 animate-slide-up">
       {/* Header */}
       <div className="text-center">
-        <p className="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-2">
+        <p className="text-xs font-bold text-[#17C662] uppercase tracking-widest mb-2">
           Analysis Complete
         </p>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+        <h2 className="text-3xl sm:text-4xl font-black text-white mb-3 tracking-tight">
           Your Hidden Revenue Report
         </h2>
-        <p className="text-slate-400 max-w-xl mx-auto">
+        <p className="text-[#6B7280] max-w-xl mx-auto text-sm font-medium">
           Based on your inputs and industry benchmarks, here is how much recurring revenue is
           sitting uncaptured in your existing customer base.
         </p>
@@ -165,23 +152,20 @@ export default function Results({ inputs, results }: ResultsProps) {
         <StatCard
           label="Total Hidden MRR"
           value={`${formatLargeCurrency(results.totalHiddenMRR)}/mo`}
-          sub="Estimated monthly recurring revenue you're not capturing"
-          highlight
-          color="blue"
+          sub="Estimated MRR you're not capturing today"
+          accent="green"
         />
         <StatCard
           label="3-Year Contract Value"
           value={formatLargeCurrency(results.threeYearValue)}
-          sub={`Based on ${inputs.sectionC.avgContractTermMonths || 36}-month avg contract term`}
-          highlight
-          color="emerald"
+          sub={`Based on ${inputs.sectionC.avgContractTermMonths || 36}-month avg term`}
+          accent="amber"
         />
         <StatCard
           label="Est. Annual Commission"
           value={formatLargeCurrency(results.annualCommission)}
           sub="At 15% commission model assumption"
-          highlight
-          color="amber"
+          accent="purple"
         />
       </div>
 
@@ -189,24 +173,24 @@ export default function Results({ inputs, results }: ResultsProps) {
       <MonetizationMeter rate={results.currentMonetizationRate} />
 
       {/* Penetration chart */}
-      <div className="bg-slate-800 border border-slate-700 rounded-2xl p-5 sm:p-6">
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+      <div className="bg-[#0D0D0D] border border-[#2A2A2A] rounded-2xl p-5 sm:p-6">
+        <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-1">
           Your Penetration vs Industry Benchmark
         </p>
-        <p className="text-xs text-slate-500 mb-5">
-          The gap between the bars is your whitespace — customers who could buy but aren&apos;t.
+        <p className="text-xs text-[#6B7280] mb-5 font-medium">
+          The gap between bars is your whitespace — customers who could buy but aren&apos;t.
         </p>
         <ResponsiveContainer width="100%" height={280}>
           <BarChart data={chartData} margin={{ top: 0, right: 10, left: -10, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#2A2A2A" vertical={false} />
             <XAxis
               dataKey="name"
-              tick={{ fill: '#94A3B8', fontSize: 11 }}
+              tick={{ fill: '#6B7280', fontSize: 11, fontWeight: 600 }}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
-              tick={{ fill: '#94A3B8', fontSize: 11 }}
+              tick={{ fill: '#6B7280', fontSize: 11, fontWeight: 600 }}
               axisLine={false}
               tickLine={false}
               tickFormatter={(v: number) => `${v}%`}
@@ -214,59 +198,45 @@ export default function Results({ inputs, results }: ResultsProps) {
             />
             <Tooltip content={<CustomTooltip />} />
             <Legend
-              wrapperStyle={{ fontSize: '12px', color: '#94A3B8', paddingTop: '16px' }}
+              wrapperStyle={{ fontSize: '12px', color: '#6B7280', paddingTop: '16px', fontWeight: 600 }}
               formatter={(v: string) =>
                 v === 'current' ? 'Your Penetration' : 'Industry Benchmark'
               }
             />
-            <Bar
-              dataKey="current"
-              name="current"
-              fill="#3B82F6"
-              radius={[4, 4, 0, 0]}
-              maxBarSize={40}
-            />
-            <Bar
-              dataKey="benchmark"
-              name="benchmark"
-              fill="#475569"
-              radius={[4, 4, 0, 0]}
-              maxBarSize={40}
-            />
+            <Bar dataKey="current" name="current" fill="#17C662" radius={[4, 4, 0, 0]} maxBarSize={40} />
+            <Bar dataKey="benchmark" name="benchmark" fill="#32373C" radius={[4, 4, 0, 0]} maxBarSize={40} />
           </BarChart>
         </ResponsiveContainer>
       </div>
 
       {/* Top 3 whitespace */}
       <div>
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">
+        <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-4">
           Top 3 Whitespace Opportunities
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {results.topThreeWhitespace.map((item, i) => (
             <div
               key={item.productKey}
-              className="bg-slate-800 border border-slate-700 rounded-2xl p-5 relative overflow-hidden"
+              className="bg-[#0D0D0D] border border-[#2A2A2A] rounded-2xl p-5 relative overflow-hidden"
             >
-              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-blue-600" />
-              <span className="text-xs font-bold text-blue-400 mb-2 block">
-                #{i + 1} Opportunity
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#17C662]" />
+              <span className="text-xs font-black text-[#17C662] mb-2 block tracking-wider">
+                #{i + 1} OPPORTUNITY
               </span>
-              <h4 className="text-lg font-bold text-white mb-3">{item.productLabel}</h4>
+              <h4 className="text-lg font-black text-white mb-3 tracking-tight">{item.productLabel}</h4>
               <div className="space-y-1.5">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Whitespace customers</span>
-                  <span className="text-white font-medium">{item.whitespaceCustomers}</span>
+                  <span className="text-[#6B7280] font-medium">Whitespace customers</span>
+                  <span className="text-white font-bold">{item.whitespaceCustomers}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Avg spend / mo</span>
-                  <span className="text-white font-medium">{formatCurrency(item.avgSpend)}</span>
+                  <span className="text-[#6B7280] font-medium">Avg spend / mo</span>
+                  <span className="text-white font-bold">{formatCurrency(item.avgSpend)}</span>
                 </div>
-                <div className="flex justify-between text-sm pt-1 border-t border-slate-700">
-                  <span className="text-slate-300 font-medium">Hidden MRR</span>
-                  <span className="text-emerald-400 font-bold">
-                    {formatCurrency(item.hiddenMRR)}/mo
-                  </span>
+                <div className="flex justify-between text-sm pt-1.5 border-t border-[#2A2A2A]">
+                  <span className="text-white/70 font-bold">Hidden MRR</span>
+                  <span className="text-[#17C662] font-black">{formatCurrency(item.hiddenMRR)}/mo</span>
                 </div>
               </div>
             </div>
@@ -274,77 +244,63 @@ export default function Results({ inputs, results }: ResultsProps) {
         </div>
       </div>
 
-      {/* Exit valuation lift — gated until lead captured */}
+      {/* Gated section: Exit Valuation + Maturity */}
       {!leadCaptured ? (
         <div className="relative">
-          {/* Blurred preview */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 blur-sm pointer-events-none select-none">
-            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-5 sm:p-6">
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                Exit Valuation Lift
-              </p>
-              <p className="text-4xl font-bold text-purple-400">$X.XXM</p>
-              <p className="text-xs text-slate-500 mt-1.5">
-                At 5x EBITDA multiple on captured whitespace
-              </p>
+            <div className="bg-[#0D0D0D] border border-[#2A2A2A] rounded-2xl p-5 sm:p-6">
+              <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-2">Exit Valuation Lift</p>
+              <p className="text-4xl font-black text-purple-400">$X.XXM</p>
+              <p className="text-xs text-[#6B7280] mt-1.5 font-medium">At 5x EBITDA on captured whitespace</p>
             </div>
-            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-5 sm:p-6">
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                Operational Maturity
-              </p>
-              <p className="text-4xl font-bold text-blue-400">X/4</p>
-              <p className="text-xs text-slate-500 mt-1.5">Best-in-Class practices in place</p>
+            <div className="bg-[#0D0D0D] border border-[#2A2A2A] rounded-2xl p-5 sm:p-6">
+              <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-2">Operational Maturity</p>
+              <p className="text-4xl font-black text-[#17C662]">X/4</p>
+              <p className="text-xs text-[#6B7280] mt-1.5 font-medium">Best-in-Class practices in place</p>
             </div>
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              <svg
-                className="w-8 h-8 text-slate-400 mx-auto mb-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-              <p className="text-sm text-slate-300 font-medium">Unlock with email below</p>
+              <div className="w-10 h-10 bg-[#161616] border border-[#2A2A2A] rounded-full flex items-center justify-center mx-auto mb-2">
+                <svg className="w-5 h-5 text-[#6B7280]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <p className="text-sm text-white font-bold">Unlock with email below</p>
             </div>
           </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fade-in">
-          <div className="bg-purple-500/10 border border-purple-500/40 rounded-2xl p-5 sm:p-6">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+          <div className="bg-purple-500/5 border border-purple-500/25 rounded-2xl p-5 sm:p-6">
+            <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-2">
               Exit Valuation Lift
             </p>
-            <p className="text-4xl font-bold text-purple-400">
+            <p className="text-4xl font-black text-purple-400">
               {formatLargeCurrency(results.exitValuationLift)}
             </p>
-            <p className="text-xs text-slate-400 mt-1.5">
+            <p className="text-xs text-[#6B7280] mt-1.5 font-medium">
               Estimated additional enterprise value if you captured this whitespace — at 5x EBITDA
               on a 40% margin assumption.
             </p>
           </div>
-          <div className="bg-slate-800 border border-slate-700 rounded-2xl p-5 sm:p-6">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+          <div className="bg-[#0D0D0D] border border-[#2A2A2A] rounded-2xl p-5 sm:p-6">
+            <p className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-2">
               Operational Maturity
             </p>
             <div className="flex items-end gap-2 mb-3">
-              <span className={`text-4xl font-bold ${maturityColors[score]}`}>{score}/4</span>
-              <span className={`text-sm font-semibold mb-1 ${maturityColors[score]}`}>
+              <span className={`text-4xl font-black ${MATURITY_COLORS[score]}`}>{score}/4</span>
+              <span className={`text-sm font-black mb-1 ${MATURITY_COLORS[score]}`}>
                 {results.operationalMaturityLabel}
               </span>
             </div>
-            <div className="h-2 bg-slate-700 rounded-full overflow-hidden mb-3">
+            <div className="h-2 bg-[#2A2A2A] rounded-full overflow-hidden mb-3">
               <div
-                className={`h-full rounded-full ${maturityBarColors[score]} ${maturityWidths[score]}`}
+                className={`h-full rounded-full ${MATURITY_BARS[score]}`}
+                style={{ width: MATURITY_PCTS[score] }}
               />
             </div>
-            <p className="text-xs text-slate-400">{getMaturityDescription(score)}</p>
+            <p className="text-xs text-[#6B7280] font-medium">{getMaturityDescription(score)}</p>
           </div>
         </div>
       )}

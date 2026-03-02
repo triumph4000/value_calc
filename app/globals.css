@@ -3,10 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --navy-950: #080D1A;
-  --navy-900: #0F172A;
-  --navy-800: #1E293B;
-  --blue-500: #3B82F6;
+  --bp-green: #17C662;
+  --bp-green-dark: #12A352;
+  --bp-charcoal: #32373C;
+  --bp-dark: #0D0D0D;
+  --bp-card: #161616;
+  --bp-border: #2A2A2A;
 }
 
 html {
@@ -14,19 +16,18 @@ html {
 }
 
 body {
-  background-color: var(--navy-900);
+  background-color: var(--bp-dark);
   color: #F8FAFC;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom range slider styling */
+/* Custom range slider */
 input[type='range'] {
   -webkit-appearance: none;
   appearance: none;
   height: 6px;
   border-radius: 3px;
-  background: #334155;
+  background: #2A2A2A;
   outline: none;
   cursor: pointer;
 }
@@ -37,27 +38,27 @@ input[type='range']::-webkit-slider-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #3B82F6;
+  background: #17C662;
   cursor: pointer;
-  border: 2px solid #1E293B;
-  box-shadow: 0 0 0 2px #3B82F6;
+  border: 2px solid #161616;
+  box-shadow: 0 0 0 2px #17C662;
   transition: box-shadow 0.15s ease;
 }
 
 input[type='range']::-webkit-slider-thumb:hover {
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 0 4px rgba(23, 198, 98, 0.25);
 }
 
 input[type='range']::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #3B82F6;
+  background: #17C662;
   cursor: pointer;
-  border: 2px solid #1E293B;
+  border: 2px solid #161616;
 }
 
-/* Recharts customization */
+/* Recharts */
 .recharts-tooltip-wrapper {
   outline: none;
 }
