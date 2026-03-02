@@ -13,14 +13,10 @@ const config: Config = {
       },
       colors: {
         bp: {
-          green: '#17C662',
-          'green-dark': '#12A352',
-          'green-light': '#4CD68B',
           charcoal: '#32373C',
-          'charcoal-dark': '#1A1D20',
-          dark: '#0D0D0D',
-          card: '#161616',
-          border: '#2A2A2A',
+          green: '#17C662',
+          light: '#F5F5F5',
+          border: '#E5E7EB',
           muted: '#6B7280',
         },
       },

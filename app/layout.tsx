@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={mulish.variable}>
-      <body className="min-h-screen bg-[#0D0D0D] text-white antialiased font-sans">
+      <body className="min-h-screen bg-white text-[#32373c] antialiased font-sans">
         {children}
       </body>
     </html>

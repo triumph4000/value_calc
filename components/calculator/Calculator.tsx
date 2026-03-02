@@ -34,10 +34,10 @@ function StepIndicator({ current }: { current: number }) {
               <div
                 className={`w-9 h-9 rounded-full border-2 flex items-center justify-center text-sm font-bold transition-all duration-300 ${
                   isCompleted
-                    ? 'bg-[#17C662] border-[#17C662] text-[#0D0D0D]'
+                    ? 'bg-[#32373c] border-[#32373c] text-white'
                     : isCurrent
-                    ? 'border-[#17C662] text-[#17C662] bg-[#17C662]/10'
-                    : 'border-[#2A2A2A] text-[#6B7280] bg-[#161616]'
+                    ? 'border-[#32373c] text-[#32373c] bg-white'
+                    : 'border-gray-200 text-gray-300 bg-white'
                 }`}
               >
                 {isCompleted ? (
@@ -50,7 +50,7 @@ function StepIndicator({ current }: { current: number }) {
               </div>
               <span
                 className={`text-[10px] font-bold mt-1 hidden sm:block tracking-wide ${
-                  isCurrent ? 'text-[#17C662]' : isCompleted ? 'text-white/40' : 'text-[#6B7280]'
+                  isCurrent ? 'text-[#32373c]' : isCompleted ? 'text-gray-400' : 'text-gray-300'
                 }`}
               >
                 {step.label}
@@ -59,7 +59,7 @@ function StepIndicator({ current }: { current: number }) {
             {i < STEPS.length - 1 && (
               <div
                 className={`h-0.5 w-10 sm:w-16 mx-1 transition-colors duration-300 ${
-                  current > step.number ? 'bg-[#17C662]' : 'bg-[#2A2A2A]'
+                  current > step.number ? 'bg-[#32373c]' : 'bg-gray-200'
                 }`}
               />
             )}
@@ -121,9 +121,9 @@ export default function Calculator() {
 
   return (
     <div ref={cardRef} className="w-full max-w-3xl mx-auto px-4">
-      <div className="bg-[#161616] border border-[#2A2A2A] rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
         {/* Card header */}
-        <div className="bg-[#0D0D0D] border-b border-[#2A2A2A] px-6 py-5">
+        <div className="bg-gray-50 border-b border-gray-200 px-6 py-5">
           <div className="flex items-center justify-between mb-1">
             <p className="text-xs font-bold text-[#17C662] uppercase tracking-widest">
               MSP Revenue Analyzer
@@ -131,14 +131,14 @@ export default function Calculator() {
             {showResults && (
               <button
                 onClick={reset}
-                className="text-xs text-[#6B7280] hover:text-white transition-colors font-medium"
+                className="text-xs text-gray-400 hover:text-[#32373c] transition-colors font-medium"
               >
                 Start over
               </button>
             )}
           </div>
           {!showResults && (
-            <p className="text-sm text-[#6B7280] font-medium">
+            <p className="text-sm text-gray-500 font-medium">
               Step {step} of 4 &mdash; {STEPS[step - 1].title}
             </p>
           )}
@@ -147,7 +147,6 @@ export default function Calculator() {
         <div className="px-6 py-7 sm:px-8 sm:py-8">
           {!showResults && <StepIndicator current={step} />}
 
-          {/* Step content */}
           {!showResults && (
             <div>
               {step === 1 && (
@@ -175,24 +174,22 @@ export default function Calculator() {
                 />
               )}
 
-              {/* Navigation */}
-              <div className="flex items-center justify-between mt-8 pt-6 border-t border-[#2A2A2A]">
+              <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
                 <button
                   onClick={back}
                   disabled={step === 1}
-                  className="px-5 py-2.5 text-sm font-bold text-[#6B7280] hover:text-white disabled:opacity-0 disabled:pointer-events-none transition-colors"
+                  className="px-5 py-2.5 text-sm font-bold text-gray-400 hover:text-[#32373c] disabled:opacity-0 disabled:pointer-events-none transition-colors"
                 >
                   Back
                 </button>
-
                 <div className="flex items-center gap-3">
                   {step === 1 && !canProceed && (
-                    <p className="text-xs text-[#6B7280]">Enter customers and MRR to continue</p>
+                    <p className="text-xs text-gray-400">Enter customers and MRR to continue</p>
                   )}
                   <button
                     onClick={next}
                     disabled={!canProceed}
-                    className="px-7 py-2.5 bg-[#17C662] hover:bg-[#12A352] disabled:opacity-40 disabled:cursor-not-allowed text-[#0D0D0D] font-black rounded-full text-sm transition-colors duration-200 tracking-wide"
+                    className="px-7 py-2.5 bg-[#32373c] hover:bg-black disabled:opacity-40 disabled:cursor-not-allowed text-white font-black rounded-full text-sm transition-colors duration-200 tracking-wide"
                   >
                     {step === 4 ? 'Calculate My Hidden Revenue' : 'Next'}
                   </button>

@@ -2,19 +2,19 @@ import Calculator from '@/components/calculator/Calculator'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#0D0D0D]">
-      {/* Nav bar */}
-      <nav className="border-b border-[#2A2A2A] bg-[#0D0D0D]/95 backdrop-blur sticky top-0 z-50">
+    <main className="min-h-screen bg-white">
+      {/* Nav */}
+      <nav className="border-b border-gray-200 bg-white sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-white font-black text-xl tracking-tight">bridgepointe</span>
-            <span className="text-[#17C662] font-black text-xl tracking-tight">technologies</span>
+          <div className="flex items-center gap-1">
+            <span className="text-[#32373c] font-black text-lg tracking-tight">bridgepointe</span>
+            <span className="text-[#17C662] font-black text-lg tracking-tight">technologies</span>
           </div>
           <a
             href="https://www.bridgepointetechnologies.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-[#6B7280] hover:text-white transition-colors hidden sm:block"
+            className="text-xs text-gray-400 hover:text-[#32373c] transition-colors hidden sm:block font-medium"
           >
             bridgepointetechnologies.com
           </a>
@@ -22,62 +22,56 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        {/* Subtle green glow top */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-[#17C662]/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative max-w-5xl mx-auto px-6 pt-16 pb-12 sm:pt-24 sm:pb-20 text-center">
-          {/* Eyebrow tag */}
-          <div className="inline-flex items-center gap-2 border border-[#17C662]/30 bg-[#17C662]/5 rounded-full px-4 py-1.5 mb-10">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#17C662] animate-pulse" />
-            <span className="text-xs font-bold text-[#17C662] tracking-widest uppercase">
+      <section className="bg-white border-b border-gray-100">
+        <div className="max-w-5xl mx-auto px-6 pt-14 pb-12 sm:pt-20 sm:pb-16 text-center">
+          {/* Eyebrow */}
+          <div className="inline-flex items-center gap-2 border border-gray-200 bg-gray-50 rounded-full px-4 py-1.5 mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#17C662]" />
+            <span className="text-xs font-bold text-[#32373c] tracking-wider uppercase">
               MSP Cross-Sell Opportunity Analyzer
             </span>
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6 tracking-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#32373c] leading-tight mb-5 tracking-tight">
             The &ldquo;Hidden MSP MRR&rdquo;
             <br />
             <span className="text-[#17C662]">Calculator</span>
           </h1>
 
-          {/* Subheading */}
-          <p className="text-xl sm:text-2xl font-semibold text-white/80 mb-6 max-w-2xl mx-auto">
+          <p className="text-xl sm:text-2xl font-semibold text-[#32373c] mb-5 max-w-2xl mx-auto">
             Find out how much revenue is hiding in your existing customer base.
           </p>
 
-          {/* Value prop box */}
-          <div className="border border-[#2A2A2A] bg-[#161616] rounded-2xl px-6 py-6 max-w-2xl mx-auto mb-6 text-left">
-            <p className="text-base sm:text-lg font-bold text-white mb-2">
+          {/* Value prop */}
+          <div className="border border-gray-200 bg-gray-50 rounded-2xl px-6 py-5 max-w-2xl mx-auto mb-5 text-left">
+            <p className="text-base sm:text-lg font-bold text-[#32373c] mb-2">
               Most MSPs monetize less than{' '}
               <span className="text-[#17C662]">40%</span> of their customer&apos;s total technology wallet.
             </p>
-            <p className="text-sm text-[#6B7280] leading-relaxed">
+            <p className="text-sm text-gray-500 leading-relaxed">
               See how much recurring revenue you are leaving on the table with missed{' '}
-              <span className="text-white/70">
+              <span className="text-[#32373c] font-medium">
                 Network, UCaaS, CX, Cloud, Colocation, and Security
               </span>{' '}
               cross-sell opportunities.
             </p>
           </div>
 
-          <p className="text-sm text-[#6B7280] mb-10">
-            In under{' '}
-            <span className="text-white font-bold">3 minutes</span>, calculate your untapped
-            cross-sell MRR.
+          <p className="text-sm text-gray-400 mb-10 font-medium">
+            In under <span className="text-[#32373c] font-bold">3 minutes</span>, calculate your untapped cross-sell MRR.
           </p>
 
           {/* Stats */}
-          <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-16 mb-14">
+          <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-16 mb-4">
             {[
               { value: '<40%', label: 'Avg wallet share captured' },
               { value: '10', label: 'Product categories analyzed' },
               { value: '5x', label: 'EBITDA exit valuation model' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <p className="text-3xl font-black text-[#17C662]">{stat.value}</p>
-                <p className="text-xs text-[#6B7280] mt-1 font-medium">{stat.label}</p>
+                <p className="text-3xl font-black text-[#32373c]">{stat.value}</p>
+                <p className="text-xs text-gray-400 mt-1 font-medium">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -85,20 +79,20 @@ export default function Home() {
       </section>
 
       {/* Calculator */}
-      <section className="pb-24 sm:pb-36">
+      <section className="bg-gray-50 py-14 sm:py-20">
         <Calculator />
       </section>
 
-      {/* About Bridgepointe */}
-      <section className="border-t border-[#2A2A2A] bg-[#161616]">
+      {/* About */}
+      <section className="bg-white border-t border-gray-100">
         <div className="max-w-3xl mx-auto px-6 py-16 sm:py-20 text-center">
           <p className="text-xs font-bold text-[#17C662] uppercase tracking-widest mb-4">
             About Bridgepointe Technologies
           </p>
-          <h2 className="text-2xl sm:text-3xl font-black text-white mb-5 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-black text-[#32373c] mb-5 tracking-tight">
             We help MSPs grow faster — and exit smarter.
           </h2>
-          <p className="text-[#6B7280] text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-8">
+          <p className="text-gray-500 text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-8">
             Bridgepointe is a technology advisory firm with deep expertise in MSP operations,
             cross-sell strategy, and exit planning. We specialize in helping managed service
             providers unlock the revenue already hiding in their customer base — across Network,
@@ -114,7 +108,7 @@ export default function Home() {
             ].map((tag) => (
               <span
                 key={tag}
-                className="border border-[#2A2A2A] bg-[#0D0D0D] rounded-full px-4 py-1.5 text-xs text-white/60 font-medium"
+                className="border border-gray-200 bg-gray-50 rounded-full px-4 py-1.5 text-xs text-[#32373c] font-medium"
               >
                 {tag}
               </span>
@@ -124,8 +118,8 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#2A2A2A] py-8 px-6">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#6B7280]">
+      <footer className="border-t border-gray-200 bg-[#32373c] py-8 px-6">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400">
           <p>&copy; {new Date().getFullYear()} Bridgepointe Technologies. All rights reserved.</p>
           <p>Results are estimates based on industry benchmarks. Actual results may vary.</p>
         </div>
