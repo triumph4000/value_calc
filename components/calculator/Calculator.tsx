@@ -32,16 +32,16 @@ function StepIndicator({ current }: { current: number }) {
           <div key={step.number} className="flex items-center">
             <div className="flex flex-col items-center">
               <div
-                className={`w-9 h-9 rounded-full border-2 flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+                className={`w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold transition-all duration-300 text-base ${
                   isCompleted
-                    ? 'bg-[#32373c] border-[#32373c] text-white'
+                    ? 'bg-[#003B5C] border-[#003B5C] text-white'
                     : isCurrent
-                    ? 'border-[#32373c] text-[#32373c] bg-white'
+                    ? 'border-[#003B5C] text-[#003B5C] bg-white'
                     : 'border-gray-200 text-gray-300 bg-white'
                 }`}
               >
                 {isCompleted ? (
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
                 ) : (
@@ -49,8 +49,8 @@ function StepIndicator({ current }: { current: number }) {
                 )}
               </div>
               <span
-                className={`text-[10px] font-bold mt-1 hidden sm:block tracking-wide ${
-                  isCurrent ? 'text-[#32373c]' : isCompleted ? 'text-gray-400' : 'text-gray-300'
+                className={`text-base font-bold mt-1 hidden sm:block ${
+                  isCurrent ? 'text-[#003B5C]' : isCompleted ? 'text-[#003B5C]/40' : 'text-gray-300'
                 }`}
               >
                 {step.label}
@@ -59,7 +59,7 @@ function StepIndicator({ current }: { current: number }) {
             {i < STEPS.length - 1 && (
               <div
                 className={`h-0.5 w-10 sm:w-16 mx-1 transition-colors duration-300 ${
-                  current > step.number ? 'bg-[#32373c]' : 'bg-gray-200'
+                  current > step.number ? 'bg-[#003B5C]' : 'bg-gray-200'
                 }`}
               />
             )}
@@ -81,67 +81,44 @@ export default function Calculator() {
   })
 
   const cardRef = useRef<HTMLDivElement>(null)
-
-  const scrollToCard = () => {
-    cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
+  const scrollToCard = () => cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
   const next = () => {
-    if (step < 4) {
-      setStep((s) => s + 1)
-      setTimeout(scrollToCard, 100)
-    } else {
-      setShowResults(true)
-      setTimeout(scrollToCard, 100)
-    }
+    if (step < 4) { setStep((s) => s + 1); setTimeout(scrollToCard, 100) }
+    else { setShowResults(true); setTimeout(scrollToCard, 100) }
   }
-
-  const back = () => {
-    if (step > 1) {
-      setStep((s) => s - 1)
-      setTimeout(scrollToCard, 100)
-    }
-  }
-
+  const back = () => { if (step > 1) { setStep((s) => s - 1); setTimeout(scrollToCard, 100) } }
   const reset = () => {
-    setStep(1)
-    setShowResults(false)
-    setInputs({
-      sectionA: { ...DEFAULT_SECTION_A },
-      sectionB: { ...DEFAULT_SECTION_B },
-      sectionC: { ...DEFAULT_SECTION_C },
-      sectionD: { ...DEFAULT_SECTION_D },
-    })
+    setStep(1); setShowResults(false)
+    setInputs({ sectionA: { ...DEFAULT_SECTION_A }, sectionB: { ...DEFAULT_SECTION_B }, sectionC: { ...DEFAULT_SECTION_C }, sectionD: { ...DEFAULT_SECTION_D } })
     setTimeout(scrollToCard, 100)
   }
 
   const results = showResults ? calculateResults(inputs) : null
-  const canProceed =
-    step === 1 ? inputs.sectionA.totalCustomers > 0 && inputs.sectionA.totalMRR > 0 : true
+  const canProceed = step === 1 ? inputs.sectionA.totalCustomers > 0 && inputs.sectionA.totalMRR > 0 : true
 
   return (
     <div ref={cardRef} className="w-full max-w-3xl mx-auto px-4">
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
         {/* Card header */}
         <div className="bg-gray-50 border-b border-gray-200 px-6 py-5">
-          <div className="flex items-center justify-between mb-1">
-            <p className="text-xs font-bold text-[#17C662] uppercase tracking-widest">
-              MSP Revenue Analyzer
-            </p>
+          <div className="flex items-center justify-between">
+            {!showResults ? (
+              <p className="text-base font-bold text-[#003B5C]">
+                Step {step} of 4 — {STEPS[step - 1].title}
+              </p>
+            ) : (
+              <p className="text-base font-bold text-[#003B5C]">Your Hidden Revenue Report</p>
+            )}
             {showResults && (
               <button
                 onClick={reset}
-                className="text-xs text-gray-400 hover:text-[#32373c] transition-colors font-medium"
+                className="text-base text-[#003B5C] hover:text-[#17C662] transition-colors font-medium"
               >
                 Start over
               </button>
             )}
           </div>
-          {!showResults && (
-            <p className="text-sm text-gray-500 font-medium">
-              Step {step} of 4 &mdash; {STEPS[step - 1].title}
-            </p>
-          )}
         </div>
 
         <div className="px-6 py-7 sm:px-8 sm:py-8">
@@ -149,47 +126,27 @@ export default function Calculator() {
 
           {!showResults && (
             <div>
-              {step === 1 && (
-                <StepA
-                  data={inputs.sectionA}
-                  onChange={(d) => setInputs((prev) => ({ ...prev, sectionA: d }))}
-                />
-              )}
-              {step === 2 && (
-                <StepB
-                  data={inputs.sectionB}
-                  onChange={(d) => setInputs((prev) => ({ ...prev, sectionB: d }))}
-                />
-              )}
-              {step === 3 && (
-                <StepC
-                  data={inputs.sectionC}
-                  onChange={(d) => setInputs((prev) => ({ ...prev, sectionC: d }))}
-                />
-              )}
-              {step === 4 && (
-                <StepD
-                  data={inputs.sectionD}
-                  onChange={(d) => setInputs((prev) => ({ ...prev, sectionD: d }))}
-                />
-              )}
+              {step === 1 && <StepA data={inputs.sectionA} onChange={(d) => setInputs((p) => ({ ...p, sectionA: d }))} />}
+              {step === 2 && <StepB data={inputs.sectionB} onChange={(d) => setInputs((p) => ({ ...p, sectionB: d }))} />}
+              {step === 3 && <StepC data={inputs.sectionC} onChange={(d) => setInputs((p) => ({ ...p, sectionC: d }))} />}
+              {step === 4 && <StepD data={inputs.sectionD} onChange={(d) => setInputs((p) => ({ ...p, sectionD: d }))} />}
 
               <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
                 <button
                   onClick={back}
                   disabled={step === 1}
-                  className="px-5 py-2.5 text-sm font-bold text-gray-400 hover:text-[#32373c] disabled:opacity-0 disabled:pointer-events-none transition-colors"
+                  className="px-5 py-2.5 text-base font-bold text-[#003B5C] hover:text-[#17C662] disabled:opacity-0 disabled:pointer-events-none transition-colors"
                 >
                   Back
                 </button>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   {step === 1 && !canProceed && (
-                    <p className="text-xs text-gray-400">Enter customers and MRR to continue</p>
+                    <p className="text-base text-[#003B5C]">Enter customers and MRR to continue</p>
                   )}
                   <button
                     onClick={next}
                     disabled={!canProceed}
-                    className="px-7 py-2.5 bg-[#32373c] hover:bg-black disabled:opacity-40 disabled:cursor-not-allowed text-white font-black rounded-full text-sm transition-colors duration-200 tracking-wide"
+                    className="px-7 py-3 bg-[#003B5C] hover:bg-[#002a42] disabled:opacity-40 disabled:cursor-not-allowed text-white font-black rounded-full text-base transition-colors duration-200"
                   >
                     {step === 4 ? 'Calculate My Hidden Revenue' : 'Next'}
                   </button>

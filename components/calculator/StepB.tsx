@@ -18,10 +18,10 @@ function PenetrationSlider({ label, description, value, benchmark, onChange }: {
     <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-sm font-black text-[#32373c] truncate">{label}</p>
-          <p className="text-xs text-gray-400 truncate font-medium">{description}</p>
+          <p className="text-base font-black text-[#003B5C]">{label}</p>
+          <p className="text-base text-[#003B5C]">{description}</p>
         </div>
-        <span className="text-2xl font-black text-[#32373c] flex-shrink-0">{value}%</span>
+        <span className="text-2xl font-black text-[#003B5C] flex-shrink-0">{value}%</span>
       </div>
 
       <input
@@ -31,17 +31,17 @@ function PenetrationSlider({ label, description, value, benchmark, onChange }: {
         onChange={(e) => onChange(Number(e.target.value))}
         className="w-full"
         style={{
-          background: `linear-gradient(to right, #32373c 0%, #32373c ${value}%, #e5e7eb ${value}%, #e5e7eb 100%)`,
+          background: `linear-gradient(to right, #003B5C 0%, #003B5C ${value}%, #e5e7eb ${value}%, #e5e7eb 100%)`,
         }}
       />
 
-      <div className="flex items-center justify-between text-xs">
-        <span className="text-gray-400 font-medium">
-          Benchmark: <span className="text-[#32373c] font-bold">{Math.round(benchmark * 100)}%</span>
+      <div className="flex items-center justify-between">
+        <span className="text-base text-[#003B5C]">
+          Benchmark: <span className="font-bold">{Math.round(benchmark * 100)}%</span>
         </span>
         {gap > 0
-          ? <span className={`font-bold ${gapColor}`}>{gap.toFixed(0)}% gap</span>
-          : <span className="text-[#17C662] font-bold">At benchmark</span>
+          ? <span className={`text-base font-bold ${gapColor}`}>{gap.toFixed(0)}% gap</span>
+          : <span className="text-base font-bold text-[#17C662]">At benchmark</span>
         }
       </div>
     </div>
@@ -51,25 +51,23 @@ function PenetrationSlider({ label, description, value, benchmark, onChange }: {
 export default function StepB({ data, onChange }: StepBProps) {
   const set = (key: keyof SectionBInputs, value: number) => onChange({ ...data, [key]: value })
 
-  const totalGap = PRODUCTS.reduce((sum, p) => {
-    return sum + Math.max(0, p.benchmarkRate - (data[p.key] ?? 0) / 100)
-  }, 0)
+  const totalGap = PRODUCTS.reduce((sum, p) => sum + Math.max(0, p.benchmarkRate - (data[p.key] ?? 0) / 100), 0)
   const avgGapPct = (totalGap / PRODUCTS.length) * 100
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-black text-[#32373c] mb-1 tracking-tight">Product Penetration</h2>
-        <p className="text-gray-500 text-sm font-medium">What percentage of your customers currently buy each service from you?</p>
+        <h2 className="text-2xl font-black text-[#003B5C] mb-2 tracking-tight">Product Penetration</h2>
+        <p className="text-base text-[#003B5C]">What percentage of your customers currently buy each service from you?</p>
       </div>
 
-      <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+      <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
         <div className="flex-shrink-0">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-0.5">Avg Penetration Gap</p>
+          <p className="text-base font-bold text-[#003B5C] mb-0.5">Average Penetration Gap</p>
           <p className="text-3xl font-black text-amber-500">{avgGapPct.toFixed(0)}%</p>
         </div>
-        <p className="text-xs text-gray-400 font-medium flex-1">
-          Average gap between your current penetration and industry benchmarks. Every point represents revenue hiding in your existing base.
+        <p className="text-base text-[#003B5C] flex-1">
+          Average gap between your current penetration and industry benchmarks. Every percentage point represents revenue hiding in your existing base.
         </p>
       </div>
 

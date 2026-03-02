@@ -6,7 +6,8 @@
       "Bash(/opt/homebrew/bin/brew:*)",
       "WebFetch(domain:www.bridgepointetechnologies.com)",
       "Bash(git add:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npx vercel:*)"
     ]
   }
 }
