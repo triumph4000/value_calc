@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Calculator from '@/components/calculator/Calculator'
 
 export default function Home() {
@@ -6,10 +7,16 @@ export default function Home() {
       {/* Nav */}
       <nav className="border-b border-gray-200 bg-white sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <span className="text-[#003B5C] font-black text-xl tracking-tight">bridgepointe</span>
-            <span className="text-[#17C662] font-black text-xl tracking-tight">technologies</span>
-          </div>
+          <a href="https://www.bridgepointetechnologies.com" target="_blank" rel="noopener noreferrer">
+            <Image
+              src="/bpt_logo.png"
+              alt="Bridgepointe Technologies"
+              width={200}
+              height={48}
+              className="h-10 w-auto"
+              priority
+            />
+          </a>
           <a
             href="https://www.bridgepointetechnologies.com"
             target="_blank"
